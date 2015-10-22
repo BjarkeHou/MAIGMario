@@ -25,10 +25,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package ch.idsia.benchmark.mario.simulation;
+package dk.itu.maig.simulator;
 
 import ch.idsia.agents.Agent;
+import ch.idsia.agents.controllers.BasicMarioAIAgent;
 import ch.idsia.agents.controllers.ForwardAgent;
+import ch.idsia.agents.controllers.ScaredAgent;
 import ch.idsia.benchmark.mario.environments.Environment;
 import ch.idsia.benchmark.mario.environments.MarioEnvironment;
 import ch.idsia.tools.MarioAIOptions;
@@ -40,25 +42,31 @@ import ch.idsia.tools.MarioAIOptions;
  * Package: ch.idsia.scenarios
  */
 
-public class AmiCoSimulator
+public class MAIGSimulator
 {
 public static void main(String[] args)
 {
+	
+	int marioStartState = 1; // 0 = small, 1 = large, 2 = flower
+	boolean visual = true;
+	boolean flatLevel = false;
+	int levelRandomizationSeed = 16;
+	
+	String options = "";
+	options = visual ? options + "-vis on " : options + "-vis off ";
+	options = flatLevel ? options + "-lf on " : options + "-lf off ";
+	options = options + "-ls " + levelRandomizationSeed + " ";
+	options = options + "-mm " + marioStartState + " ";
+	
     MarioAIOptions marioAIOptions = new MarioAIOptions(args);
     marioAIOptions.setMarioInvulnerable(true);
-    String options = "-lf on -zs 1 -ls 16 -vis on";
     System.out.print(options);
     Environment environment = MarioEnvironment.getInstance();
-    Agent agent = new ForwardAgent();
+    Agent agent = new ScaredAgent();
     environment.reset(options);
     while (!environment.isLevelFinished())
     {
         environment.tick();
-//                agent.integrateObservation(environment.getSerializedLevelSceneObservationZ(options[17]),
-//                                           environment.getSerializedEnemiesObservationZ(options[18]),
-//                                           environment.getMarioFloatPos(),
-//                                           environment.getEnemiesFloatPos(),
-//                                           environment.getMarioState());
         agent.integrateObservation(environment);
         environment.performAction(agent.getAction());
     }
