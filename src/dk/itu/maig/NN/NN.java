@@ -33,8 +33,8 @@ public class NN {
 		
 		for (int i = 0; i < inputs.length; i++) {
 			// TODO: Uncomment line
-			//inputNodes.get(i).setInput(inputs[i]);
-			//inputNodes.get(i).activate();
+			inputNodes.get(i).setInput(inputs[i]);
+			inputNodes.get(i).activate();
 		}
 		
 		for (Node hiddenNode : hiddenNodes) {
@@ -88,13 +88,19 @@ public class NN {
 	private void InitializeNetwork() {
 		for (Node inputNode : inputNodes) {
 			for (Node hiddenNode : hiddenNodes) {
-				connections.add(new Connection(inputNode, hiddenNode));
+				Connection newConn = new Connection(inputNode, hiddenNode);
+				connections.add(newConn);
+				inputNode.addOut(newConn);
+				hiddenNode.addIn(newConn);
 			}
 		}
 		
 		for (Node hiddenNode : hiddenNodes) {
 			for (Node outputNode : outputNodes) {
-				connections.add(new Connection(hiddenNode, outputNode));
+				Connection newConn = new Connection(hiddenNode, outputNode); 
+				connections.add(newConn);
+				hiddenNode.addOut(newConn);
+				outputNode.addIn(newConn);
 			}
 		}
 	}

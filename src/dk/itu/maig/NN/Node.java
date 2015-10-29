@@ -1,27 +1,34 @@
 package dk.itu.maig.NN;
 
+import java.util.ArrayList;
+
 public class Node {
 	
-	protected Connection ins[];
-	protected Connection outs[];
+	protected ArrayList<Connection> ins;
+	protected ArrayList<Connection> outs;
 	protected double input; //already summed and multiplied by the weights of the connections
 	protected double output = 0;
 	protected double threshold = 0.5;
 
 	public Node() {
-		
-	};
+	}
 	
-	public Node(Connection[] ins, Connection[] outs) {
+	public Node(ArrayList<Connection> ins, ArrayList<Connection> outs) {
 		this.ins = ins;
 		this.outs = outs;
 	}
 
 	public void activate(){
-				
-		//normalize to 0-1 range
-		double res = input/(ins.length+1);
 		
+		//temp var
+		double res = 0.0;
+		
+		//normalize to 0-1 range
+		if (ins !=null){
+			res = input/ins.size();
+		}else{
+			res = input;
+		}
 		//set output by calling the actual activation function		
 		activationFunction(res);
 		
@@ -33,15 +40,10 @@ public class Node {
 		
 		if (outs != null){
 			for (Connection c : outs) {
-				
 				double i = c.to.input;
 				i = i + res*c.weight;
-				
 			}
-		
-		}
-
-		
+		}		
 	}
 
 	/**
@@ -51,7 +53,6 @@ public class Node {
 	 * in our case it's a ramp
 	 */
 	private void activationFunction(double res) {
-		
 		if (res > threshold){
 			output = res;
 		} else {
@@ -75,19 +76,27 @@ public class Node {
 		this.threshold = threshold;
 	}
 
-	public Connection[] getIns() {
+	public void addIn(Connection in){
+		ins.add(in);
+	}
+
+	public void addOut(Connection in){
+		outs.add(in);
+	}
+	
+	public ArrayList<Connection> getIns() {
 		return ins;
 	}
 
-	public void setIns(Connection[] ins) {
+	public void setIns(ArrayList<Connection> ins) {
 		this.ins = ins;
 	}
 
-	public Connection[] getOuts() {
+	public ArrayList<Connection> getOuts() {
 		return outs;
 	}
 
-	public void setOuts(Connection[] outs) {
+	public void setOuts(ArrayList<Connection> outs) {
 		this.outs = outs;
 	}
 
