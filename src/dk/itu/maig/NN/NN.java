@@ -27,7 +27,7 @@ public class NN {
 	
 	public double[] run(double[] inputs) throws Exception {
 		if(inputs.length != inputNodes.size())
-			throw new Exception("Number of inputs are not equal to number of input nodes.");
+			throw new Exception("Number of inputs (" + inputs.length + ") are not equal to number of input nodes ("+inputNodes.size()+").");
 		
 		double[] outputs = new double[outputNodes.size()];
 		
