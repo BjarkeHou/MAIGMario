@@ -6,11 +6,17 @@ package dk.itu.maig.evloution;
 public class PhenotypeMario {
 	private double fitness;
     
-	//TODO:
-	//add the simulation instance here !!!
+	// TODO:
+	// add the simulation instance here !!!!!!!!!
+	
+	// TODO:
+	// this should be the place to "Decide on inputs and normalize inputs"
+	
+	// TODO:
+	// the actual NN (structure) should be build here ??? or not?
 	
 	public double getFitness(){
-		return this.fitness;
+		return fitness;
 	}
 	
 	public void setFitness(double fitness){

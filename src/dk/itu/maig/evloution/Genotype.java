@@ -64,6 +64,6 @@ public class Genotype {
     }
     
     public double[] getNewtworkWeights(){
-    	return this.newtworkWeights;
+    	return newtworkWeights;
     }
 }

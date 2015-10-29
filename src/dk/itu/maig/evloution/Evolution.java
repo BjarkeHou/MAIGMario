@@ -58,7 +58,7 @@ public class Evolution {
             int index = 0;
             random = new Random();
             while(nextGeneration.size() < POPULATION_SIZE) {
-                for(int n=0; n < numChildren; n++){                        
+                for(int n=0; n < numChildren; n++){
                     // find crossover partners, incl. self
                     int partnerID = random.nextInt(POPULATION_SIZE);
                     Genotype newGenotype = population.get(index).reproduce(population.get(partnerID), random);
