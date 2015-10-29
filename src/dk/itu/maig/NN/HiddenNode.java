@@ -2,7 +2,8 @@ package dk.itu.maig.NN;
 
 public class HiddenNode extends Node {
 
-	public HiddenNode() {
+	public HiddenNode(Connection[] ins, Connection[] outs) {
+		super(ins, outs);
 		// TODO Auto-generated constructor stub
 	}
 
