@@ -4,7 +4,6 @@ public class OutNode extends Node {
 
 	public OutNode(Connection[] ins, Connection[] outs) {
 		super(ins, null);
-		// TODO Auto-generated constructor stub
 	}
 
 }

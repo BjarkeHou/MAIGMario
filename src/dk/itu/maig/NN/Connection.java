@@ -9,14 +9,12 @@ public class Connection {
 	public Connection(Node from, Node to) {
 		this.from = from;
 		this.to = to;
-		// TODO Auto-generated constructor stub
 	}
 
 	public Connection(Node from, Node to, double weight) {
 		this.from = from;
 		this.to = to;
 		this.weight = weight;
-		// TODO Auto-generated constructor stub
 	}
 	
 	

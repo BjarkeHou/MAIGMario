@@ -1,16 +1,19 @@
 package dk.itu.maig.NN;
 
-public abstract class Node {
+public class Node {
 	
 	protected Connection ins[];
 	protected Connection outs[];
 	protected double output = 0;
 	protected double threshold = 0.5;
 
+	public Node() {
+		
+	};
+	
 	public Node(Connection[] ins, Connection[] outs) {
 		this.ins = ins;
 		this.outs = outs;
-		// TODO Auto-generated constructor stub
 	}
 
 	public void activate(){
@@ -18,9 +21,7 @@ public abstract class Node {
 		double res = 0;
 		
 		for (Connection c : ins) {
-			
 			res+=c.from.output*c.weight;
-			
 		}
 		
 		res = res/(ins.length+1);
