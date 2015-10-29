@@ -5,7 +5,9 @@ package dk.itu.maig.evloution;
  */
 public class PhenotypeMario {
 	private double fitness;
-    //private final Genotype genotype;
+    
+	//TODO:
+	//add the simulation instance here !!!
 	
 	public double getFitness(){
 		return this.fitness;

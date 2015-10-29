@@ -62,4 +62,8 @@ public class Genotype {
     public void setPhenotype(PhenotypeMario phenotype){
     	this.phenotype = phenotype;
     }
+    
+    public double[] getNewtworkWeights(){
+    	return this.newtworkWeights;
+    }
 }
