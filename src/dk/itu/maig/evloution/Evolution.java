@@ -33,8 +33,16 @@ public class Evolution {
 			int numTrials=10;
             for(int i=0; i<POPULATION_SIZE; i++){
             	population.get(i).setPhenotype(new PhenotypeMario());
-            	MAIGSimulator sdfkjhasgjkhadkj = new MAIGSimulator(true, 1, random.nextInt(215)); //#### numTrials stuff missing
-            	population.get(i).getPhenotype().setFitness( sdfkjhasgjkhadkj.simulate(new NN(6,6,6, random)) );
+            	MAIGSimulator sim = new MAIGSimulator(false, 1, random.nextInt(215));
+            	double score = 0;
+            	for(int n=0; n < numTrials; n++){
+            		score += sim.simulate(new NN(6,6,6, random));
+            	}
+            	score = score / numTrials;
+            	
+            	System.out.println(score);
+            			
+            	population.get(i).getPhenotype().setFitness(score);
             }
             population.sort(Comparator.comparing(i -> -i.getPhenotype().getFitness()));
 
