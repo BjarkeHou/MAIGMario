@@ -4,6 +4,7 @@ public class Node {
 	
 	protected Connection ins[];
 	protected Connection outs[];
+	protected double input; //already summed and multiplied by the weights of the connections
 	protected double output = 0;
 	protected double threshold = 0.5;
 
@@ -17,21 +18,61 @@ public class Node {
 	}
 
 	public void activate(){
+				
+		//normalize to 0-1 range
+		double res = input/(ins.length+1);
 		
-		double res = 0;
+		//set output by calling the actual activation function		
+		activationFunction(res);
 		
-		for (Connection c : ins) {
-			res+=c.from.output*c.weight;
+		//propagate forward, unless it's an output node
+		//also summing in-place, as you go
+		//when done iterating all nodes from the same layer
+		//the "input" value of the nodes in the next layer
+		//should be already fully updated (that is, weighted and summed)
+		
+		if (outs != null){
+			for (Connection c : outs) {
+				
+				double i = c.to.input;
+				i = i + res*c.weight;
+				
+			}
+		
 		}
+
 		
-		res = res/(ins.length+1);
+	}
+
+	/**
+	 * @param res
+	 * 
+	 * This is the actual activation function,
+	 * in our case it's a ramp
+	 */
+	private void activationFunction(double res) {
 		
 		if (res > threshold){
 			output = res;
 		} else {
 			output = 0;
 		}
-		
+	}
+
+	public double getInput() {
+		return input;
+	}
+
+	public void setInput(double input) {
+		this.input = input;
+	}
+
+	public double getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(double threshold) {
+		this.threshold = threshold;
 	}
 
 	public Connection[] getIns() {
