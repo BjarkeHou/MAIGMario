@@ -1,5 +1,8 @@
 package dk.itu.maig.evloution;
 
+/**
+ * @author Aaron Gornott <agor@itu.dk>
+ */
 public class PhenotypeMario {
 	private double fitness;
     //private final Genotype genotype;

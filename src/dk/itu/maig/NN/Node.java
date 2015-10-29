@@ -77,10 +77,16 @@ public class Node {
 	}
 
 	public void addIn(Connection in){
+		if(ins == null){
+			ins = new ArrayList<Connection>();
+		}
 		ins.add(in);
 	}
 
 	public void addOut(Connection in){
+		if(outs == null){
+			outs = new ArrayList<Connection>();
+		}
 		outs.add(in);
 	}
 	

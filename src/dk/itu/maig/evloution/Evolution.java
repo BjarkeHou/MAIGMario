@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import dk.itu.maig.NN.NN;
-import dk.itu.maig.agents.TestNNAgent;
+import dk.itu.maig.simulator.MAIGSimulator;
 
 /**
  * @author Aaron Gornott <agor@itu.dk>
@@ -20,7 +20,7 @@ public class Evolution {
 		
 		// generate initial population
 		Random random = new Random();
-		int numberOfNewtworkWeights = new NN(6,6,6).getNumberOfConnections();
+		int numberOfNewtworkWeights = new NN(6,6,6, random).getNumberOfConnections();
 		List<Genotype> population = new ArrayList<>();		
 		for(int i=0; i < POPULATION_SIZE; i++){
 			population.add( new Genotype(numberOfNewtworkWeights, random) );
@@ -33,7 +33,8 @@ public class Evolution {
 			int numTrials=10;
             for(int i=0; i<POPULATION_SIZE; i++){
             	population.get(i).setPhenotype(new PhenotypeMario());
-            	population.get(i).getPhenotype().setFitness( run(numTrials) );
+            	MAIGSimulator sdfkjhasgjkhadkj = new MAIGSimulator(true, 1, random.nextInt(215)); //#### numTrials stuff missing
+            	population.get(i).getPhenotype().setFitness( sdfkjhasgjkhadkj.simulate(new NN(6,6,6, random)) );
             }
             population.sort(Comparator.comparing(i -> -i.getPhenotype().getFitness()));
 
