@@ -1,5 +1,7 @@
 package dk.itu.maig.agents;
 
+import java.util.Random;
+
 import ch.idsia.agents.Agent;
 import ch.idsia.agents.controllers.BasicMarioAIAgent;
 import ch.idsia.benchmark.mario.engine.sprites.Mario;
@@ -9,9 +11,14 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 
 	private NN nn = null;
 	
-	public TestNNAgent(int in, int hidden, int out) {
+	public TestNNAgent(NN nn) {
 		super("Test NN Agent");
-		nn = new NN(in, hidden, out);
+		this.nn = nn;
+	}
+	
+	public TestNNAgent(int in, int hidden, int out, Random r) {
+		super("Test NN Agent");
+		nn = new NN(in, hidden, out, r);
 	}
 	
 	public TestNNAgent(NN nn) {
@@ -56,5 +63,9 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 		}
 		
 		return actions;
+	}
+	
+	public void updateNN(NN nn) {
+		this.nn = nn;
 	}
 }

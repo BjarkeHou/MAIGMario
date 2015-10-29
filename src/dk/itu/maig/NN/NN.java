@@ -5,18 +5,17 @@ import java.util.Random;
 
 public class NN {
 	
-	ArrayList<InNode> inputNodes = new ArrayList<InNode>();
-	ArrayList<HiddenNode> hiddenNodes = new ArrayList<HiddenNode>();
-	ArrayList<OutNode> outputNodes = new ArrayList<OutNode>();
+	ArrayList<Node> inputNodes = new ArrayList<Node>();
+	ArrayList<Node> hiddenNodes = new ArrayList<Node>();
+	ArrayList<Node> outputNodes = new ArrayList<Node>();
 	ArrayList<Connection> connections = new ArrayList<Connection>();
 	
-	Random rand = new Random();
 	
 	// Creates a NN with random weights
-	public NN(int in, int hidden, int out) {
+	public NN(int in, int hidden, int out, Random r) {
 		createNodes(in, hidden, out);		
 		InitializeNetwork();
-		RandomizeWeights();
+		RandomizeWeights(r);
 	}
 	
 	// Creates a NN with random weights
@@ -34,11 +33,11 @@ public class NN {
 		
 		for (int i = 0; i < inputs.length; i++) {
 			// TODO: Uncomment line
-			//inputNodes.get(i).setInput(inputs[i]);
-			//inputNodes.get(i).activate();
+			inputNodes.get(i).setInput(inputs[i]);
+			inputNodes.get(i).activate();
 		}
 		
-		for (HiddenNode hiddenNode : hiddenNodes) {
+		for (Node hiddenNode : hiddenNodes) {
 			//TODO: Uncomment line
 			//hiddenNode.activate();
 		}
@@ -54,20 +53,20 @@ public class NN {
 
 	private void createNodes(int in, int hidden, int out) {
 		for(int i = 0; i < in; i++) {
-			inputNodes.add(new InNode());
+			inputNodes.add(new Node());
 		}
 		for(int i = 0; i < hidden; i++) {
-			hiddenNodes.add(new HiddenNode());
+			hiddenNodes.add(new Node());
 		}
 		for(int i = 0; i < out; i++) {
-			outputNodes.add(new OutNode());
+			outputNodes.add(new Node());
 		}
 	}
 	
 	// Randomizes weights of the NN network
-	public void RandomizeWeights() {
+	public void RandomizeWeights(Random r) {
 		for (Connection connection : connections) {
-			double weight = rand.nextDouble();
+			double weight = r.nextDouble();
 			//TODO: Uncomment line
 			//connection.setWeight(weight);
 		}
@@ -87,15 +86,21 @@ public class NN {
 	// Creates connections between every input to every hidden
 	// and every hidden to every output.
 	private void InitializeNetwork() {
-		for (InNode inputNode : inputNodes) {
-			for (HiddenNode hiddenNode : hiddenNodes) {
-				connections.add(new Connection()); //TODO: Set connection to be from input node to hidden node
+		for (Node inputNode : inputNodes) {
+			for (Node hiddenNode : hiddenNodes) {
+				Connection newConn = new Connection(inputNode, hiddenNode);
+				connections.add(newConn);
+				inputNode.addOut(newConn);
+				hiddenNode.addIn(newConn);
 			}
 		}
 		
-		for (HiddenNode hiddenNode : hiddenNodes) {
-			for (OutNode outputNode : outputNodes) {
-				connections.add(new Connection()); //TODO: Set connection to be from input node to hidden node
+		for (Node hiddenNode : hiddenNodes) {
+			for (Node outputNode : outputNodes) {
+				Connection newConn = new Connection(hiddenNode, outputNode); 
+				connections.add(newConn);
+				hiddenNode.addOut(newConn);
+				outputNode.addIn(newConn);
 			}
 		}
 	}
