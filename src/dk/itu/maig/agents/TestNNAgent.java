@@ -11,6 +11,11 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 
 	private NN nn = null;
 	
+	public TestNNAgent(NN nn) {
+		super("Test NN Agent");
+		this.nn = nn;
+	}
+	
 	public TestNNAgent(int in, int hidden, int out, Random r) {
 		super("Test NN Agent");
 		nn = new NN(in, hidden, out, r);
@@ -53,5 +58,9 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 		}
 		
 		return actions;
+	}
+	
+	public void updateNN(NN nn) {
+		this.nn = nn;
 	}
 }
