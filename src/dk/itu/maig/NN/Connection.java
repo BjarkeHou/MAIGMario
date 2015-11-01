@@ -2,6 +2,7 @@ package dk.itu.maig.NN;
 
 public class Connection {
 
+	//hard-coded default
 	protected double weight = 0.5;
 	protected Node from = null;
 	protected Node to = null;
