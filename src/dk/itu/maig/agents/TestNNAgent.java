@@ -35,11 +35,8 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	public boolean[] getAction()
 	{
 		// Normalize input values
-		double[] normalizedInputs = new double[1]; //TODO add actual game items
-		for(int i = 0; i < normalizedInputs.length; i++) {
-			normalizedInputs[i] = new Random(i*normalizedInputs.length).nextDouble();
-		}
-		normalizedInputs[0] = 1; //TODO remove this line
+		double[] normalizedInputs = NormalizeInputs();
+		
 		// Feed NN with input values and receive output values
 		double[] nnResult;
 		try {
@@ -68,5 +65,19 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	
 	public void updateNN(NN nn) {
 		this.nn = nn;
+	}
+	
+	private double[] NormalizeInputs() {
+		double[] inputs = new double[8];
+		inputs[0] = getReceptiveFieldCellValue(marioEgoRow + 2, marioEgoCol + 1);
+		inputs[1] = getReceptiveFieldCellValue(marioEgoRow + 1, marioEgoCol + 1);
+		inputs[2] = getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1);
+		inputs[3] = getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 2);
+		inputs[4] = getEnemiesCellValue(marioEgoRow, marioEgoCol + 1);
+		inputs[5] = getEnemiesCellValue(marioEgoRow, marioEgoCol + 2);
+		inputs[6] = isMarioAbleToJump ? 1 : 0;
+		inputs[7] = isMarioOnGround ? 1 : 0;
+				
+		return inputs;
 	}
 }

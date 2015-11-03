@@ -20,7 +20,7 @@ public class Evolution {
 		
 		// generate initial population
 		Random random = new Random();
-		int numberOfNewtworkWeights = new NN(1,1,6, random).getNumberOfConnections();
+		int numberOfNewtworkWeights = new NN(8,7,6, random).getNumberOfConnections();
 		List<Genotype> population = new ArrayList<>();		
 		for(int i=0; i < POPULATION_SIZE; i++){
 			population.add( new Genotype(numberOfNewtworkWeights, random) );
@@ -32,11 +32,11 @@ public class Evolution {
 			// evaluate generation			
 			int numTrials=10;
             for(int i=0; i<POPULATION_SIZE; i++){
-            	MAIGSimulator sim = new MAIGSimulator(false, 0, random.nextInt(215));
+            	MAIGSimulator sim = new MAIGSimulator(false, 0, 1);
             	population.get(i).setPhenotype(new PhenotypeMario(sim));
             	double score = 0;
             	for(int n=0; n < numTrials; n++){
-            		score += sim.simulate(new NN(1,1,6, population.get(i).getNewtworkWeights() ));
+            		score += sim.simulate(new NN(8,7,6, population.get(i).getNewtworkWeights() ));
             	}
             	score = score / numTrials;
             	//System.out.println("phenotype["+ i +"].avgFitness: " + score);
