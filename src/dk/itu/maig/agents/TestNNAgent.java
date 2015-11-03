@@ -16,6 +16,7 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 		super("TestNNAgent");
 		this.r = r;
 		nn = new NN(in, hidden, out, r);
+
 	}
 	
 	public TestNNAgent(NN nn) {
@@ -78,6 +79,11 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 		inputs[6] = isMarioAbleToJump ? 1 : 0;
 		inputs[7] = isMarioOnGround ? 1 : 0;
 				
+//		for(double input : inputs) {
+//			System.out.print(input + " ");
+//		}
+//		System.out.println("");
+		
 		return inputs;
 	}
 }
