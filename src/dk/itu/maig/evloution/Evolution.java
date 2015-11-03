@@ -14,7 +14,7 @@ import dk.itu.maig.simulator.MAIGSimulator;
 public class Evolution {
 	
 	// EVOLVE_GENETIC_CONTROLLER
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
 		int POPULATION_SIZE = 200;
 		int ELITE_SIZE = 5; // elitism of best individuals
 		
@@ -36,12 +36,10 @@ public class Evolution {
             	MAIGSimulator sim = new MAIGSimulator(false, 1, random.nextInt(215));
             	double score = 0;
             	for(int n=0; n < numTrials; n++){
-            		score += sim.simulate(new NN(6,6,6, random));
+            		score += sim.simulate(new NN(6,6,6, population.get(i).getNewtworkWeights() ));
             	}
             	score = score / numTrials;
-            	
-            	System.out.println(score);
-            			
+            	System.out.println("phenotype["+ i +"].avgFitness: " + score);	
             	population.get(i).getPhenotype().setFitness(score);
             }
             population.sort(Comparator.comparing(i -> -i.getPhenotype().getFitness()));
@@ -60,7 +58,7 @@ public class Evolution {
             int index = 0;
             random = new Random();
             while(nextGeneration.size() < POPULATION_SIZE) {
-                for(int n=0; n < numChildren; n++){                        
+                for(int n=0; n < numChildren; n++){
                     // find crossover partners, incl. self
                     int partnerID = random.nextInt(POPULATION_SIZE);
                     Genotype newGenotype = population.get(index).reproduce(population.get(partnerID), random);
