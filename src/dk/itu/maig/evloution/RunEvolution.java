@@ -13,11 +13,12 @@ import dk.itu.maig.simulator.MAIGSimulator;
  */
 public class RunEvolution {
 	
+	static final int POPULATION_SIZE = 200;
+	static final int ELITE_SIZE = POPULATION_SIZE / 40; // elitism of best individuals
+	static final int REPRODUCTION_TOP = POPULATION_SIZE / 10; // reproduction count for best individual
+	
 	// EVOLVE_GENETIC_CONTROLLER
 	public static void main(String args[]) throws Exception {
-		int POPULATION_SIZE = 200;
-		int ELITE_SIZE = 5; // elitism of best individuals
-		
 		// generate initial population
 		Random random = new Random();
 		int numberOfNewtworkWeights = new NN(8,7,6, random).getNumberOfConnections();
@@ -61,7 +62,7 @@ public class RunEvolution {
             for(int i=0; i<ELITE_SIZE; i++){
                 nextGeneration.add(population.get(i));
             }
-            int numChildren = POPULATION_SIZE / 10;
+            int numChildren = REPRODUCTION_TOP;
             int index = 0;
             random = new Random();
             while(nextGeneration.size() < POPULATION_SIZE) {
