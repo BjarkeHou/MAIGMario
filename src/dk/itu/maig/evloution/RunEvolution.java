@@ -11,7 +11,7 @@ import dk.itu.maig.simulator.MAIGSimulator;
 /**
  * @author Aaron Gornott <agor@itu.dk>
  */
-public class Evolution {
+public class RunEvolution {
 	
 	// EVOLVE_GENETIC_CONTROLLER
 	public static void main(String args[]) throws Exception {
