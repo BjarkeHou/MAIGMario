@@ -32,20 +32,17 @@ public class NN {
 		double[] outputs = new double[outputNodes.size()];
 		
 		for (int i = 0; i < inputs.length; i++) {
-			// TODO: Uncomment line
 			inputNodes.get(i).setInput(inputs[i]);
 			inputNodes.get(i).activate();
 		}
 		
 		for (Node hiddenNode : hiddenNodes) {
-			//TODO: Uncomment line
-			//hiddenNode.activate();
+			hiddenNode.activate();
 		}
 		
 		for (int i = 0; i < outputs.length; i++) {
-			//TODO: Uncomment line
-			//outputNodes.get(i).activate();
-			//outputs[i] = outputNodes.get(i).getOutput();
+			outputNodes.get(i).activate();
+			outputs[i] = outputNodes.get(i).getOutput();
 		}
 		
 		return outputs;
@@ -67,8 +64,7 @@ public class NN {
 	public void RandomizeWeights(Random r) {
 		for (Connection connection : connections) {
 			double weight = r.nextDouble();
-			//TODO: Uncomment line
-			//connection.setWeight(weight);
+			connection.setWeight(weight);
 		}
 	}
 	

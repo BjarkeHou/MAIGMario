@@ -42,6 +42,7 @@ public class Node {
 			for (Connection c : outs) {
 				double i = c.to.input;
 				i = i + res*c.weight;
+				c.to.setInput(i);
 			}
 		}		
 	}
