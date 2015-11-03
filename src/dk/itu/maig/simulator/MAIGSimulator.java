@@ -24,7 +24,7 @@ public class MAIGSimulator
 		options = options + "-ls " + levelRandomizationSeed + " ";
 		options = options + "-mm " + marioStartState + " ";
 		if(test) {
-			options = options + "-le off -lf on";
+			options = "-mm 0 -vis on -lco off -lb on -le off -lhb off -lg off -ltb off -lhs off -lde off";
 		}
 	}
 	
