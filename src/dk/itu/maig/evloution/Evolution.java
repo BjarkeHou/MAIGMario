@@ -23,7 +23,14 @@ public class Evolution {
 		int numberOfNewtworkWeights = new NN(1,1,6, random).getNumberOfConnections();
 		List<Genotype> population = new ArrayList<>();		
 		for(int i=0; i < POPULATION_SIZE; i++){
-			population.add( new Genotype(numberOfNewtworkWeights, random) );
+			//population.add( new Genotype(numberOfNewtworkWeights, random) );
+			
+			
+			//TODO dsgihaligralhagrlargkgfjhgfhjgj TODO remose this 2 lines
+			double[] w = {1,0,1,0,0,0,0};
+			population.add( new Genotype(w) );
+			
+			
 		}
 		
 		int generationCount = 0;
@@ -41,14 +48,19 @@ public class Evolution {
             	
             	
             	
+            	
                 /**
-                 * just short debug
+                 * just short debug, remove later
                  */
-            	System.out.print("WEIGHTS[");
-                for(double w : population.get(i).getNewtworkWeights())
-                	System.out.print(","+w);
-                System.out.println("]");
+//            	System.out.print("WEIGHTS[");
+//                for(double w : population.get(i).getNewtworkWeights())
+//                	System.out.print(","+w);
+//                System.out.println("]");
+                /**
+                 * 
+                 */
                 
+            	
             	
             	
             	score = score / numTrials;
