@@ -18,11 +18,14 @@ public class RunEvolution {
 	static final int REPRODUCTION_TOP = POPULATION_SIZE / 11; // reproduction count for best individual (next best x--; until x==1)
 	static final int NUM_EVAL_TRIALS=1; // TODO:  = 10; // run count for avg evaluation
 	
+	static final int inNodes = 8, hiddenNodes = 7, outNodes = 6; // NN def
+	
+	
 	// EVOLVE_GENETIC_CONTROLLER
 	public static void main(String args[]) throws Exception {
 		// generate initial population
 		Random random = new Random();
-		int numberOfNewtworkWeights = new NN(8,7,6, random).getNumberOfConnections();
+		int numberOfNewtworkWeights = new NN(inNodes,hiddenNodes,outNodes, random).getNumberOfConnections();
 		List<Genotype> population = new ArrayList<>();		
 		for(int i=0; i < POPULATION_SIZE; i++){
 			population.add( new Genotype(numberOfNewtworkWeights, random) );
@@ -33,11 +36,11 @@ public class RunEvolution {
 			
 			// evaluate generation
             for(int i=0; i<POPULATION_SIZE; i++){
-            	MAIGSimulator sim = new MAIGSimulator(false, 0, 1); //TODO level seed is still static?
+            	MAIGSimulator sim = new MAIGSimulator(false, 0, 1); //TODO level seed is still static? do random later!
             	population.get(i).setPhenotype(new PhenotypeMario(sim));
             	double score = 0;
             	for(int n=0; n < NUM_EVAL_TRIALS; n++){
-            		score += sim.simulate(new NN(8,7,6, population.get(i).getNewtworkWeights() ));
+            		score += sim.simulate(new NN(inNodes,hiddenNodes,outNodes, population.get(i).getNewtworkWeights() ));
             	}
             	score = score / NUM_EVAL_TRIALS;
             	//System.out.println("phenotype["+ i +"].avgFitness: " + score);
@@ -49,7 +52,6 @@ public class RunEvolution {
             for(Genotype g : population)
             	avgPopulationFitness += g.getPhenotype().getFitness();
             avgPopulationFitness = avgPopulationFitness / POPULATION_SIZE;
-            
             
             System.out.println("generation: "+generationCount +
                     "   fitness[best: "+population.get(0).getPhenotype().getFitness()+
