@@ -32,7 +32,7 @@ public class Evolution {
 			// evaluate generation			
 			int numTrials=10;
             for(int i=0; i<POPULATION_SIZE; i++){
-            	MAIGSimulator sim = new MAIGSimulator(false, 0, 1);
+            	MAIGSimulator sim = new MAIGSimulator(false, 0, 1); //TODO level seed is still static?
             	population.get(i).setPhenotype(new PhenotypeMario(sim));
             	double score = 0;
             	for(int n=0; n < numTrials; n++){
@@ -44,17 +44,24 @@ public class Evolution {
             }
             population.sort(Comparator.comparing(i -> -i.getPhenotype().getFitness()));
             
+            double avgPopulationFitness = 0;
+            for(Genotype g : population)
+            	avgPopulationFitness += g.getPhenotype().getFitness();
+            avgPopulationFitness = avgPopulationFitness / POPULATION_SIZE;
+            
+            
             System.out.println("generation: "+generationCount +
                     "   fitness[best: "+population.get(0).getPhenotype().getFitness()+
-                    ",  median: "+population.get(POPULATION_SIZE/2).getPhenotype().getFitness()+"]");
+                    ",  median: "+population.get(POPULATION_SIZE/2).getPhenotype().getFitness()+
+                    ", avg:" + avgPopulationFitness + "]");
             System.out.println("best Genotype:\n"+population.get(0));
             
             // produce next generation
             List<Genotype> nextGeneration = new ArrayList<>();
             for(int i=0; i<ELITE_SIZE; i++){
                 nextGeneration.add(population.get(i));
-            }          
-            int numChildren = 18; // == iteration over (47 - ELITE_SIZE) best genotypes
+            }
+            int numChildren = POPULATION_SIZE / 10;
             int index = 0;
             random = new Random();
             while(nextGeneration.size() < POPULATION_SIZE) {
