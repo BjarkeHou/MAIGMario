@@ -2,7 +2,6 @@ package dk.itu.maig.NN;
 
 public class Connection {
 
-	//hard-coded default
 	protected double weight = 0.5;
 	protected Node from = null;
 	protected Node to = null;
@@ -18,6 +17,10 @@ public class Connection {
 		this.to = to;
 		this.weight = weight;
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 	
 	

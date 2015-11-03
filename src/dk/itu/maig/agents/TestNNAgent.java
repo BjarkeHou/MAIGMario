@@ -10,24 +10,21 @@ import dk.itu.maig.NN.NN;
 public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 
 	private NN nn = null;
-	
-	public TestNNAgent(NN nn) {
-		super("Test NN Agent");
-		this.nn = nn;
-	}
+	Random r;
 	
 	public TestNNAgent(int in, int hidden, int out, Random r) {
-		super("Test NN Agent");
+		super("TestNNAgent");
+		this.r = r;
 		nn = new NN(in, hidden, out, r);
 	}
 	
 	public TestNNAgent(NN nn) {
-		super("Test NN Agent");
+		super("TestNNAgent");
 		this.nn = nn;
 	}
 	
 	public TestNNAgent(int in, int hidden, int out, double[] weights) {
-		super("Test NN Agent");
+		super("TestNNAgent");
 		try {
 			nn = new NN(in, hidden, out, weights);
 		} catch (Exception e) {
@@ -38,11 +35,15 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	public boolean[] getAction()
 	{
 		// Normalize input values
-		double[] normalizedInputs = new double[5];
+		double[] normalizedInputs = new double[6];
+		for(int i = 0; i < normalizedInputs.length; i++) {
+			normalizedInputs[i] = new Random(i*normalizedInputs.length).nextDouble();
+		}
 		// Feed NN with input values and receive output values
 		double[] nnResult;
 		try {
 			nnResult = nn.run(normalizedInputs);
+			
 			// Decode output values
 			action = decode(nnResult);
 		} catch (Exception e) {

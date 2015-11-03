@@ -27,7 +27,7 @@ public class NN {
 	
 	public double[] run(double[] inputs) throws Exception {
 		if(inputs.length != inputNodes.size())
-			throw new Exception("Number of inputs are not equal to number of input nodes.");
+			throw new Exception("Number of inputs (" + inputs.length + ") are not equal to number of input nodes ("+inputNodes.size()+").");
 		
 		double[] outputs = new double[outputNodes.size()];
 		
@@ -75,8 +75,7 @@ public class NN {
 	public void SetWeights(double[] weights) throws Exception {
 		if(weights.length == connections.size()) {
 			for (int i = 0; i < weights.length; i++) {
-				//TODO: Uncomment line
-				//connections.get(i).setWeight(weights[i]);
+				connections.get(i).setWeight(weights[i]);
 			}
 		} else {
 			throw new Exception("Number of weights are not equal with number of connections.");
