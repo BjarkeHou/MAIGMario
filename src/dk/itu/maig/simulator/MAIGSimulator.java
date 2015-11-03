@@ -43,11 +43,11 @@ public class MAIGSimulator
 	        environment.performAction(agent.getAction());
 	    }
 	
-		System.out.println("Evaluation Info:");
+		//System.out.println("Evaluation Info:");
 	    int[] ev = environment.getEvaluationInfoAsInts();
 	    for (int anEv : ev)
 	    {
-	        System.out.print(anEv + ", ");
+	        //System.out.print(anEv + ", ");
 	    }
 		int[] marioPos = environment.getMarioEgoPos(); 
 	    return marioPos[0]; // X value.
