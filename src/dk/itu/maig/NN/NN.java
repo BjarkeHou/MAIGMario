@@ -75,8 +75,7 @@ public class NN {
 	public void SetWeights(double[] weights) throws Exception {
 		if(weights.length == connections.size()) {
 			for (int i = 0; i < weights.length; i++) {
-				//TODO: Uncomment line
-				//connections.get(i).setWeight(weights[i]);
+				connections.get(i).setWeight(weights[i]);
 			}
 		} else {
 			throw new Exception("Number of weights are not equal with number of connections.");

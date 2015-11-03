@@ -13,18 +13,18 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	Random r;
 	
 	public TestNNAgent(int in, int hidden, int out, Random r) {
-		super("Test NN Agent");
+		super("TestNNAgent");
 		this.r = r;
 		nn = new NN(in, hidden, out, r);
 	}
 	
 	public TestNNAgent(NN nn) {
-		super("Test NN Agent");
+		super("TestNNAgent");
 		this.nn = nn;
 	}
 	
 	public TestNNAgent(int in, int hidden, int out, double[] weights) {
-		super("Test NN Agent");
+		super("TestNNAgent");
 		try {
 			nn = new NN(in, hidden, out, weights);
 		} catch (Exception e) {
@@ -43,6 +43,7 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 		double[] nnResult;
 		try {
 			nnResult = nn.run(normalizedInputs);
+			
 			// Decode output values
 			action = decode(nnResult);
 		} catch (Exception e) {

@@ -19,6 +19,10 @@ public class Connection {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+	
 	
 	
 }

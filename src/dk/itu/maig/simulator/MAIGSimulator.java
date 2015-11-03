@@ -1,13 +1,14 @@
 package dk.itu.maig.simulator;
 
-import ch.idsia.agents.Agent;
 import ch.idsia.benchmark.mario.environments.Environment;
 import ch.idsia.benchmark.mario.environments.MarioEnvironment;
+import ch.idsia.tools.MarioAIOptions;
 import dk.itu.maig.NN.NN;
 import dk.itu.maig.agents.TestNNAgent;
 
 public class MAIGSimulator
 {
+	boolean test = true;
 	int marioStartState; // 0 = small, 1 = large, 2 = flower
 	boolean visual;
 	int levelRandomizationSeed;
@@ -22,6 +23,9 @@ public class MAIGSimulator
 		options = visual ? options + "-vis on " : options + "-vis off ";
 		options = options + "-ls " + levelRandomizationSeed + " ";
 		options = options + "-mm " + marioStartState + " ";
+		if(test) {
+			options = options + "-le off -lf on";
+		}
 	}
 	
 	// Runs the game with the provided NN and returns a fitness function.
@@ -33,7 +37,9 @@ public class MAIGSimulator
 		}
 		
 		Environment environment = MarioEnvironment.getInstance();
-	    environment.reset(options);
+		MarioAIOptions opt = new MarioAIOptions(options);
+		opt.setAgent(agent);
+	    environment.reset(opt);
 		
 		// Game loop
 		while (!environment.isLevelFinished())
@@ -43,12 +49,12 @@ public class MAIGSimulator
 	        environment.performAction(agent.getAction());
 	    }
 	
-		System.out.println("Evaluation Info:");
-	    int[] ev = environment.getEvaluationInfoAsInts();
-	    for (int anEv : ev)
-	    {
-	        System.out.print(anEv + ", ");
-	    }
+//		System.out.println("Evaluation Info:");
+//	    int[] ev = environment.getEvaluationInfoAsInts();
+//	    for (int anEv : ev)
+//	    {
+//	        System.out.print(anEv + ", ");
+//	    }
 		int[] marioPos = environment.getMarioEgoPos(); 
 	    return marioPos[0]; // X value.
 	}
