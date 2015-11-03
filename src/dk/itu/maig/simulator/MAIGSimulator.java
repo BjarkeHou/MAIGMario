@@ -40,6 +40,7 @@ public class MAIGSimulator
 		MarioAIOptions opt = new MarioAIOptions(options);
 		opt.setAgent(agent);
 	    environment.reset(opt);
+	    agent.setObservationDetails(environment.getReceptiveFieldWidth(), environment.getReceptiveFieldHeight(), environment.getMarioEgoPos()[0], environment.getMarioEgoPos()[1]);
 		
 		// Game loop
 		while (!environment.isLevelFinished())

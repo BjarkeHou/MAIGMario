@@ -32,7 +32,7 @@ public class Evolution {
 			// evaluate generation			
 			int numTrials=10;
             for(int i=0; i<POPULATION_SIZE; i++){
-            	MAIGSimulator sim = new MAIGSimulator(false, 0, 1);
+            	MAIGSimulator sim = new MAIGSimulator(false, 0, 2);
             	population.get(i).setPhenotype(new PhenotypeMario(sim));
             	double score = 0;
             	for(int n=0; n < numTrials; n++){
