@@ -63,13 +63,6 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 				actions[i] = false;
 			}
 		}
-		
-		//TODO delete output !!!!!
-		System.out.print("bool:");
-		for(boolean b : action)
-			System.out.print(" "+b);
-		System.out.print("\n");
-		
 		return actions;
 	}
 	

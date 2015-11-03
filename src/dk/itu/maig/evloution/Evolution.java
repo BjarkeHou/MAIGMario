@@ -23,14 +23,7 @@ public class Evolution {
 		int numberOfNewtworkWeights = new NN(1,1,6, random).getNumberOfConnections();
 		List<Genotype> population = new ArrayList<>();		
 		for(int i=0; i < POPULATION_SIZE; i++){
-			//population.add( new Genotype(numberOfNewtworkWeights, random) );
-			
-			
-			//TODO dsgihaligralhagrlargkgfjhgfhjgj TODO remose this 2 lines
-			double[] w = {1,0,1,0,0,0,0};
-			population.add( new Genotype(w) );
-			
-			
+			population.add( new Genotype(numberOfNewtworkWeights, random) );
 		}
 		
 		int generationCount = 0;
@@ -39,32 +32,14 @@ public class Evolution {
 			// evaluate generation			
 			int numTrials=10;
             for(int i=0; i<POPULATION_SIZE; i++){
-            	MAIGSimulator sim = new MAIGSimulator(true, 1, random.nextInt(215));
+            	MAIGSimulator sim = new MAIGSimulator(false, 0, random.nextInt(215));
             	population.get(i).setPhenotype(new PhenotypeMario(sim));
             	double score = 0;
             	for(int n=0; n < numTrials; n++){
             		score += sim.simulate(new NN(1,1,6, population.get(i).getNewtworkWeights() ));
             	}
-            	
-            	
-            	
-            	
-                /**
-                 * just short debug, remove later
-                 */
-//            	System.out.print("WEIGHTS[");
-//                for(double w : population.get(i).getNewtworkWeights())
-//                	System.out.print(","+w);
-//                System.out.println("]");
-                /**
-                 * 
-                 */
-                
-            	
-            	
-            	
             	score = score / numTrials;
-            	System.out.println("phenotype["+ i +"].avgFitness: " + score);
+            	//System.out.println("phenotype["+ i +"].avgFitness: " + score);
             	population.get(i).getPhenotype().setFitness(score);
             }
             population.sort(Comparator.comparing(i -> -i.getPhenotype().getFitness()));

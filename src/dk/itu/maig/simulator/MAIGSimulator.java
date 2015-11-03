@@ -8,7 +8,7 @@ import dk.itu.maig.agents.TestNNAgent;
 
 public class MAIGSimulator
 {
-	boolean test = true;
+	boolean test = false;
 	int marioStartState; // 0 = small, 1 = large, 2 = flower
 	boolean visual;
 	int levelRandomizationSeed;
@@ -29,7 +29,7 @@ public class MAIGSimulator
 	}
 	
 	// Runs the game with the provided NN and returns a fitness function.
-	public int simulate(NN nn) {
+	public float simulate(NN nn) {
 		if(agent == null) {
 			agent = new TestNNAgent(nn);
 		} else {
@@ -56,7 +56,7 @@ public class MAIGSimulator
 //	    {
 //	        System.out.print(anEv + ", ");
 //	    }
-		int[] marioPos = environment.getMarioEgoPos(); 
+		float[] marioPos = environment.getMarioFloatPos(); 
 	    return marioPos[0]; // X value.
 	}
 }
