@@ -35,10 +35,11 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	public boolean[] getAction()
 	{
 		// Normalize input values
-		double[] normalizedInputs = new double[6];
+		double[] normalizedInputs = new double[1]; //TODO add actual game items
 		for(int i = 0; i < normalizedInputs.length; i++) {
 			normalizedInputs[i] = new Random(i*normalizedInputs.length).nextDouble();
 		}
+		normalizedInputs[0] = 1; //TODO remove this line
 		// Feed NN with input values and receive output values
 		double[] nnResult;
 		try {
@@ -62,6 +63,12 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 				actions[i] = false;
 			}
 		}
+		
+		//TODO delete output !!!!!
+		System.out.print("bool:");
+		for(boolean b : action)
+			System.out.print(" "+b);
+		System.out.print("\n");
 		
 		return actions;
 	}

@@ -49,6 +49,7 @@ public class MAIGSimulator
 	        environment.performAction(agent.getAction());
 	    }
 	
+
 //		System.out.println("Evaluation Info:");
 //	    int[] ev = environment.getEvaluationInfoAsInts();
 //	    for (int anEv : ev)

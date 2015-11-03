@@ -20,10 +20,17 @@ public class Evolution {
 		
 		// generate initial population
 		Random random = new Random();
-		int numberOfNewtworkWeights = new NN(6,6,6, random).getNumberOfConnections();
+		int numberOfNewtworkWeights = new NN(1,1,6, random).getNumberOfConnections();
 		List<Genotype> population = new ArrayList<>();		
 		for(int i=0; i < POPULATION_SIZE; i++){
-			population.add( new Genotype(numberOfNewtworkWeights, random) );
+			//population.add( new Genotype(numberOfNewtworkWeights, random) );
+			
+			
+			//TODO dsgihaligralhagrlargkgfjhgfhjgj TODO remose this 2 lines
+			double[] w = {1,0,1,0,0,0,0};
+			population.add( new Genotype(w) );
+			
+			
 		}
 		
 		int generationCount = 0;
@@ -32,18 +39,36 @@ public class Evolution {
 			// evaluate generation			
 			int numTrials=10;
             for(int i=0; i<POPULATION_SIZE; i++){
-            	population.get(i).setPhenotype(new PhenotypeMario());
-            	MAIGSimulator sim = new MAIGSimulator(false, 1, random.nextInt(215));
+            	MAIGSimulator sim = new MAIGSimulator(true, 1, random.nextInt(215));
+            	population.get(i).setPhenotype(new PhenotypeMario(sim));
             	double score = 0;
             	for(int n=0; n < numTrials; n++){
-            		score += sim.simulate(new NN(6,6,6, population.get(i).getNewtworkWeights() ));
+            		score += sim.simulate(new NN(1,1,6, population.get(i).getNewtworkWeights() ));
             	}
+            	
+            	
+            	
+            	
+                /**
+                 * just short debug, remove later
+                 */
+//            	System.out.print("WEIGHTS[");
+//                for(double w : population.get(i).getNewtworkWeights())
+//                	System.out.print(","+w);
+//                System.out.println("]");
+                /**
+                 * 
+                 */
+                
+            	
+            	
+            	
             	score = score / numTrials;
-            	System.out.println("phenotype["+ i +"].avgFitness: " + score);	
+            	System.out.println("phenotype["+ i +"].avgFitness: " + score);
             	population.get(i).getPhenotype().setFitness(score);
             }
             population.sort(Comparator.comparing(i -> -i.getPhenotype().getFitness()));
-
+            
             System.out.println("generation: "+generationCount +
                     "   fitness[best: "+population.get(0).getPhenotype().getFitness()+
                     ",  median: "+population.get(POPULATION_SIZE/2).getPhenotype().getFitness()+"]");
