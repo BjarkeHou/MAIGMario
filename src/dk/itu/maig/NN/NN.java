@@ -6,20 +6,20 @@ import java.util.Random;
 public class NN {
 	
 	ArrayList<Node> inputNodes = new ArrayList<Node>();
-	ArrayList<Node> hiddenNodes = new ArrayList<Node>();
+	ArrayList<ArrayList<Node>> hiddenNodes = new ArrayList<ArrayList<Node>>();
 	ArrayList<Node> outputNodes = new ArrayList<Node>();
 	ArrayList<Connection> connections = new ArrayList<Connection>();
 	
 	
 	// Creates a NN with random weights
-	public NN(int in, int hidden, int out, Random r) {
+	public NN(int in, int[] hidden, int out, Random r) {
 		createNodes(in, hidden, out);		
 		InitializeNetwork();
 		RandomizeWeights(r);
 	}
 	
 	// Creates a NN with random weights
-	public NN(int in, int hidden, int out, double[] weights) throws Exception {
+	public NN(int in, int[] hidden, int out, double[] weights) throws Exception {
 		createNodes(in, hidden, out);		
 		InitializeNetwork();
 		SetWeights(weights);
@@ -36,8 +36,10 @@ public class NN {
 			inputNodes.get(i).activate();
 		}
 		
-		for (Node hiddenNode : hiddenNodes) {
-			hiddenNode.activate();
+		for (ArrayList<Node> hiddenNodeLayer : hiddenNodes) {
+			for (Node hiddenNode : hiddenNodeLayer) {
+				hiddenNode.activate();
+			}
 		}
 		
 		for (int i = 0; i < outputs.length; i++) {
@@ -48,12 +50,17 @@ public class NN {
 		return outputs;
 	}
 
-	private void createNodes(int in, int hidden, int out) {
+	private void createNodes(int in, int[] hidden, int out) {
 		for(int i = 0; i < in; i++) {
 			inputNodes.add(new Node());
 		}
-		for(int i = 0; i < hidden; i++) {
-			hiddenNodes.add(new Node());
+		for(int i = 0; i < hidden.length; i++) {
+			// For each layer, add an array list
+			hiddenNodes.add(i, new ArrayList<Node>());
+			for(int j = 0; j < hidden[i]; j++) {
+				// in that layer, add the desired amount of nodes
+				hiddenNodes.get(i).add(new Node());
+			}
 		}
 		for(int i = 0; i < out; i++) {
 			outputNodes.add(new Node());
@@ -82,7 +89,7 @@ public class NN {
 	// and every hidden to every output.
 	private void InitializeNetwork() {
 		for (Node inputNode : inputNodes) {
-			for (Node hiddenNode : hiddenNodes) {
+			for (Node hiddenNode : hiddenNodes.get(0)) {
 				Connection newConn = new Connection(inputNode, hiddenNode);
 				connections.add(newConn);
 				inputNode.addOut(newConn);
@@ -90,7 +97,23 @@ public class NN {
 			}
 		}
 		
-		for (Node hiddenNode : hiddenNodes) {
+		for (ArrayList<Node> hiddenNodeLayer : hiddenNodes) {
+			if(hiddenNodes.indexOf(hiddenNodeLayer) == hiddenNodes.size() - 1)
+				break;
+			
+			for (Node hiddenNodeLowerLayer : hiddenNodeLayer) {
+				for (Node hiddenNodeUpperLayer : hiddenNodes.get(hiddenNodes.indexOf(hiddenNodeLayer) + 1)) {
+					Connection newConn = new Connection(hiddenNodeLowerLayer, hiddenNodeUpperLayer);
+					connections.add(newConn);
+					hiddenNodeLowerLayer.addOut(newConn);
+					hiddenNodeUpperLayer.addIn(newConn);
+				}
+//				if(hiddenNodes.indexOf(hiddenNodeLayer) == hiddenNodes.size()-1)
+//					break;
+			}
+		}
+		
+		for (Node hiddenNode : hiddenNodes.get(hiddenNodes.size()-1)) {
 			for (Node outputNode : outputNodes) {
 				Connection newConn = new Connection(hiddenNode, outputNode); 
 				connections.add(newConn);

@@ -12,7 +12,7 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	private NN nn = null;
 	Random r;
 	
-	public TestNNAgent(int in, int hidden, int out, Random r) {
+	public TestNNAgent(int in, int[] hidden, int out, Random r) {
 		super("TestNNAgent");
 		this.r = r;
 		nn = new NN(in, hidden, out, r);
@@ -24,7 +24,7 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 		this.nn = nn;
 	}
 	
-	public TestNNAgent(int in, int hidden, int out, double[] weights) {
+	public TestNNAgent(int in, int[] hidden, int out, double[] weights) {
 		super("TestNNAgent");
 		try {
 			nn = new NN(in, hidden, out, weights);
@@ -55,7 +55,7 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	private boolean[] decode(double[] nnResult) {
 		boolean[] actions = new boolean[nnResult.length];
 		for(int i = 0; i < nnResult.length; i++) {
-			if(nnResult[i] > 0.5) {
+			if(nnResult[i] > 0.9) {
 				actions[i] = true;
 			} else {
 				actions[i] = false;
@@ -69,15 +69,27 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	}
 	
 	private double[] NormalizeInputs() {
-		double[] inputs = new double[8];
-		inputs[0] = getReceptiveFieldCellValue(marioEgoRow + 2, marioEgoCol + 1);
-		inputs[1] = getReceptiveFieldCellValue(marioEgoRow + 1, marioEgoCol + 1);
-		inputs[2] = getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1);
-		inputs[3] = getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 2);
-		inputs[4] = getEnemiesCellValue(marioEgoRow, marioEgoCol + 1);
-		inputs[5] = getEnemiesCellValue(marioEgoRow, marioEgoCol + 2);
-		inputs[6] = isMarioAbleToJump ? 1 : 0;
-		inputs[7] = isMarioOnGround ? 1 : 0;
+		int width = 4, height = 4; 
+		int xOffset = 0, yOffset = -2;
+		double[] inputs = new double[(width*height)+2]; // -1 for MarioEgoPos; +2 for isOnGround and ableToJump
+		
+		for(int x = 0; x < width; x++) {
+			for(int y = 0; y < height; y++) {
+				inputs[width * x + y] = getReceptiveFieldCellValue(x + xOffset, y + yOffset);
+			}
+		}
+		
+		inputs[(width*height)] = isMarioAbleToJump ? 1 : 0;
+		inputs[(width*height)+1] = isMarioOnGround ? 1 : 0;
+		
+//		inputs[0] = getReceptiveFieldCellValue(marioEgoRow + 2, marioEgoCol + 1);
+//		inputs[1] = getReceptiveFieldCellValue(marioEgoRow + 1, marioEgoCol + 1);
+//		inputs[2] = getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 1);
+//		inputs[3] = getReceptiveFieldCellValue(marioEgoRow, marioEgoCol + 2);
+//		inputs[4] = getEnemiesCellValue(marioEgoRow, marioEgoCol + 1);
+//		inputs[5] = getEnemiesCellValue(marioEgoRow, marioEgoCol + 2);
+//		inputs[6] = isMarioAbleToJump ? 1 : 0;
+//		inputs[7] = isMarioOnGround ? 1 : 0;
 				
 //		for(double input : inputs) {
 //			System.out.print(input + " ");
