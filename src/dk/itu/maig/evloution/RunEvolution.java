@@ -47,7 +47,7 @@ public class RunEvolution {
 		PrintWriter writeFitness = null;
 		PrintWriter writeController = null;
 		if(saveFitnessDataToFile || saveBestControllerToFile) {
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");
 			Date date = new Date();
 			String folderName = "level" + levelSeed + "-" + dateFormat.format(date);
 			File folder = new File(folderName);
@@ -111,7 +111,10 @@ public class RunEvolution {
                     // find crossover partners, incl. self
                     int partnerID = random.nextInt(POPULATION_SIZE);
                     Genotype newGenotype = population.get(index).reproduce(population.get(partnerID), random);
-                    nextGeneration.add(newGenotype);
+                    if(nextGeneration.size() < POPULATION_SIZE) // safty feature
+                    	nextGeneration.add(newGenotype);
+                    else
+                    	break;
                 }
                 if(numChildren > 1) { numChildren--; }
                 index++;
