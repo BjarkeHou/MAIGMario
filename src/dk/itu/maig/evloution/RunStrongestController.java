@@ -14,5 +14,7 @@ public class RunStrongestController {
 		//Random random = new Random();
 		new MAIGSimulator(true, 0, 2).simulate(nn); //TODO level seed is still static?
 	}
+
+	
 	
 }
