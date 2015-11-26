@@ -8,7 +8,7 @@ public class Node {
 	protected ArrayList<Connection> outs;
 	protected double input; //already summed and multiplied by the weights of the connections
 	protected double output = 0;
-	protected double threshold = 0.5;
+	protected double threshold = 0.2;
 
 	public Node() {
 	}
@@ -26,6 +26,7 @@ public class Node {
 		//normalize to 0-1 range
 		if (ins !=null){
 			res = input/ins.size();
+			//System.out.println(res);
 		}else{
 			res = input;
 		}
@@ -40,11 +41,15 @@ public class Node {
 		
 		if (outs != null){
 			for (Connection c : outs) {
-				double i = c.to.input;
-				i = i + res*c.weight;
+				double i = c.to.getInput();
+				i = i + output*c.weight;
 				c.to.setInput(i);
 			}
-		}		
+		}
+	}
+	
+	public void resetNode() {
+		input = 0;
 	}
 
 	/**

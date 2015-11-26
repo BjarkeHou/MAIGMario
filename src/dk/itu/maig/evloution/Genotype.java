@@ -19,11 +19,22 @@ public class Genotype {
 			this.newtworkWeights[i] = r.nextDouble(); 
 		}
     }
+	
+	public Genotype(int numberOfNewtworkWeights, Random r, double wMax){
+		this.newtworkWeights = new double[numberOfNewtworkWeights];
+		for(int i=0; i < numberOfNewtworkWeights; i++){
+			double weight;
+			do {
+				weight = r.nextDouble();
+			} while(weight > wMax);
+			this.newtworkWeights[i] = weight; 
+		}
+    }
     
-    public Genotype reproduce(Genotype other, Random r){
+    public Genotype reproduce(Genotype other, double mutateChance, Random r){
     	double[] newNewtworkWeights = new double[newtworkWeights.length];
     	for(int i=0; i < newtworkWeights.length; i++){
-    		newNewtworkWeights[i] = mutate( geneticOperation(this.newtworkWeights[i], other.newtworkWeights[i], r), r);
+    		newNewtworkWeights[i] = mutate( geneticOperation(this.newtworkWeights[i], other.newtworkWeights[i], r), mutateChance, r);
     	}
         return new Genotype(newNewtworkWeights);
     }
@@ -36,9 +47,9 @@ public class Genotype {
             return gene2;
     }
     
-    private double mutate(double gene, Random r){
-        if(r.nextDouble() < 0.025){ // 2,5%
-            double newGene = gene + ((r.nextDouble() - 0.5) * 0.3 );
+    private double mutate(double gene, double chance, Random r){
+        if(r.nextDouble() < chance){ 
+            double newGene = gene + ((r.nextDouble() - 0.5) * 0.5);
             if(newGene >= 1) newGene = 1 - Double.MIN_VALUE ; // <-- almost 1
             if(newGene < 0) newGene = 0;
             return newGene;

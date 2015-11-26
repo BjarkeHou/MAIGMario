@@ -46,7 +46,7 @@ public class MAIGSimulator
 	    
 		// Game loop
 		while (!environment.isLevelFinished())
-	    {
+	    { 
 	        environment.tick();
 	        agent.integrateObservation(environment);
 	        boolean[] actions = agent.getAction();
@@ -54,8 +54,8 @@ public class MAIGSimulator
 	        for (boolean action : actions) {
 				if (action) actionCounter++;
 			}
-	        
-	        keyPressCounter += actionCounter*actionCounter;
+	        if(actionCounter > 0)
+	        	keyPressCounter += actionCounter;
 	        
 	        environment.performAction(agent.getAction());
 	    }
@@ -68,6 +68,7 @@ public class MAIGSimulator
 //	        System.out.print(anEv + ", ");
 //	    }
 		float[] marioPos = environment.getMarioFloatPos(); 
-	    return marioPos[0]/keyPressCounter; // X value.
+		
+	    return keyPressCounter == 0 ? marioPos[0] : marioPos[0]/keyPressCounter; // X value.
 	}
 }

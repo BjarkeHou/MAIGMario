@@ -18,16 +18,20 @@ import dk.itu.maig.simulator.MAIGSimulator;
  */
 public class RunEvolution {
 	
-	static final int POPULATION_SIZE = 200;
+	static final int POPULATION_SIZE = 500;
 	static final int ELITE_SIZE = POPULATION_SIZE / 40; // elitism of best individuals
 	static final int REPRODUCTION_TOP = POPULATION_SIZE / 11; // reproduction count for best individual (next best x--; until x==1)
 	static final int NUM_EVAL_TRIALS=1; // TODO:  = 10; // run count for avg evaluation
 	
+	static final double AVG_FITNESS_CHANGE_THRESHOLD = 5;
+	static final int MUTATION_CHANGE_THRESHOLD = 50; 
+	static final double MUTATION_CHANGE = 0.025;
+	
 	static final int levelSeed = 2;
 	static final boolean visual = false;
 	
-	static final int inNodes = 18;
-	static final int[] hiddenNodes = {15, 10};
+	static final int inNodes = 6*6+1;
+	static final int[] hiddenNodes = {19, 10};
 	static final int outNodes = 6; // NN def
 	
 	static final boolean saveFitnessDataToFile = true;
@@ -62,16 +66,18 @@ public class RunEvolution {
 		}
 		
 		int generationCount = 0;
+		double mutation_chance = 0.05; // 5 percent chance for each connection to mutate.
+		//double fitnessX[] = new double[MUTATION_CHANGE_THRESHOLD];
 		while (true) { // user decides when to stop
 			
 			// evaluate generation
             for(int i=0; i<POPULATION_SIZE; i++){
             	MAIGSimulator sim;
-//            	if(i == 0 && generationCount%50 == 0) {
-//            		 sim = new MAIGSimulator(true, 0, levelSeed); //TODO level seed is still static? do random later!
-//            	} else {
+            	if(i == 0 && generationCount%20 == 0) {
+            		 sim = new MAIGSimulator(true, 0, levelSeed); //TODO level seed is still static? do random later!
+            	} else {
             		sim = new MAIGSimulator(false, 0, levelSeed); //TODO level seed is still static? do random later!
-//            	}
+            	}
             	
             	population.get(i).setPhenotype(new PhenotypeMario(sim));
             	double score = 0;
@@ -84,14 +90,27 @@ public class RunEvolution {
             }
             population.sort(Comparator.comparing(i -> -i.getPhenotype().getFitness()));
             
+            double avgPopulationFitness = 0;
+            for(Genotype g : population)
+            	avgPopulationFitness += g.getPhenotype().getFitness();
+            avgPopulationFitness = avgPopulationFitness / POPULATION_SIZE;
+            
+            
+//            if(generationCount >= MUTATION_CHANGE_THRESHOLD) {
+//	        	if((avgPopulationFitness - fitnessX[generationCount%MUTATION_CHANGE_THRESHOLD]) < AVG_FITNESS_CHANGE_THRESHOLD &&
+//	            		(avgPopulationFitness - fitnessX[generationCount%MUTATION_CHANGE_THRESHOLD]) > AVG_FITNESS_CHANGE_THRESHOLD*-1) {
+//	            	mutation_chance += MUTATION_CHANGE;
+//	            } else if((avgPopulationFitness - fitnessX[generationCount%MUTATION_CHANGE_THRESHOLD]) > AVG_FITNESS_CHANGE_THRESHOLD*5 &&
+//	            		(avgPopulationFitness - fitnessX[generationCount%MUTATION_CHANGE_THRESHOLD]) < AVG_FITNESS_CHANGE_THRESHOLD*-5) {
+//	            	mutation_chance -= MUTATION_CHANGE;
+//	            }
+//            }
+            
+//            fitnessX[generationCount%MUTATION_CHANGE_THRESHOLD] = avgPopulationFitness;
+            
             if(saveFitnessDataToFile) {
-            	double avgPopulationFitness = 0;
-                for(Genotype g : population)
-                	avgPopulationFitness += g.getPhenotype().getFitness();
-                avgPopulationFitness = avgPopulationFitness / POPULATION_SIZE;
-                
             	writeFitness.println(generationCount + " " + population.get(0).getPhenotype().getFitness() + " " + avgPopulationFitness);
-            	System.out.println("generation: " + generationCount + " best: " + population.get(0).getPhenotype().getFitness() + " avg: " + avgPopulationFitness);
+            	System.out.println("generation: " + generationCount + " best: " + population.get(0).getPhenotype().getFitness() + " avg: " + avgPopulationFitness + " mutation: " + mutation_chance);
             }
             
             if(saveBestControllerToFile && generationCount%10 == 0) {
@@ -110,7 +129,7 @@ public class RunEvolution {
                 for(int n=0; n < numChildren; n++){
                     // find crossover partners, incl. self
                     int partnerID = random.nextInt(POPULATION_SIZE);
-                    Genotype newGenotype = population.get(index).reproduce(population.get(partnerID), random);
+                    Genotype newGenotype = population.get(index).reproduce(population.get(partnerID), mutation_chance, random);
                     if(nextGeneration.size() < POPULATION_SIZE) // safty feature
                     	nextGeneration.add(newGenotype);
                     else

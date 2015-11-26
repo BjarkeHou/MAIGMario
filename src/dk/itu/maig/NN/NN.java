@@ -34,17 +34,20 @@ public class NN {
 		for (int i = 0; i < inputs.length; i++) {
 			inputNodes.get(i).setInput(inputs[i]);
 			inputNodes.get(i).activate();
+			inputNodes.get(i).resetNode();
 		}
 		
 		for (ArrayList<Node> hiddenNodeLayer : hiddenNodes) {
 			for (Node hiddenNode : hiddenNodeLayer) {
 				hiddenNode.activate();
+				hiddenNode.resetNode();
 			}
 		}
 		
 		for (int i = 0; i < outputs.length; i++) {
 			outputNodes.get(i).activate();
 			outputs[i] = outputNodes.get(i).getOutput();
+			outputNodes.get(i).resetNode();
 		}
 		
 		return outputs;

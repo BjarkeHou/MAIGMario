@@ -55,12 +55,14 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	private boolean[] decode(double[] nnResult) {
 		boolean[] actions = new boolean[nnResult.length];
 		for(int i = 0; i < nnResult.length; i++) {
-			if(nnResult[i] > 0.9) {
+			//System.out.print(nnResult[i] + " ");
+			if(nnResult[i] > 0.5) {
 				actions[i] = true;
 			} else {
 				actions[i] = false;
 			}
 		}
+		//System.out.println();
 		return actions;
 	}
 	
@@ -69,18 +71,30 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 	}
 	
 	private double[] NormalizeInputs() {
-		int width = 4, height = 4; 
-		int xOffset = 0, yOffset = -2;
-		double[] inputs = new double[(width*height)+2]; // -1 for MarioEgoPos; +2 for isOnGround and ableToJump
+		int width = 6, height = 6; 
+		int xOffset = 0, yOffset = -4;
+		double[] inputs = new double[(width*height)+1]; //+2 for isOnGround and ableToJump
 		
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
-				inputs[width * x + y] = getReceptiveFieldCellValue(x + xOffset, y + yOffset);
+				inputs[width * x + y] = getReceptiveFieldCellValue(marioEgoRow + x + yOffset, marioEgoCol + y + xOffset) == 1 || getEnemiesCellValue(marioEgoRow + x + yOffset, marioEgoCol + y + xOffset) == 1 ? 1 : 0;
+				//System.out.println(inputs[width * x + y]);
 			}
 		}
 		
 		inputs[(width*height)] = isMarioAbleToJump ? 1 : 0;
-		inputs[(width*height)+1] = isMarioOnGround ? 1 : 0;
+		//inputs[(width*height)+1] = isMarioOnGround ? 1 : 0;
+		
+//		System.out.println("---------------------------");
+//		for(int x = 0; x < width; x++) {
+//			for(int y = 0; y < height; y++) {
+//				System.out.print(inputs[width * x + y] + " ");
+//			}
+//			System.out.println();
+//		}
+//		
+//		System.out.println(inputs[inputs.length-2] + " " + inputs[inputs.length-1]);
+		
 		
 //		inputs[0] = getReceptiveFieldCellValue(marioEgoRow + 2, marioEgoCol + 1);
 //		inputs[1] = getReceptiveFieldCellValue(marioEgoRow + 1, marioEgoCol + 1);
