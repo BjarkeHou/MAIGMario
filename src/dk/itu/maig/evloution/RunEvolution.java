@@ -26,9 +26,9 @@ public class RunEvolution {
 	static final int levelSeed = 2;
 	static final boolean visual = false;
 	
-	static final int inNodes = 18;
-	static final int[] hiddenNodes = {15, 10};
-	static final int outNodes = 6; // NN def
+	static final int inNodes = 10;
+	static final int[] hiddenNodes = {7,5};
+	static final int outNodes = 3; // NN def
 	
 	static final boolean saveFitnessDataToFile = true;
 	static final boolean saveBestControllerToFile = true;
@@ -70,7 +70,7 @@ public class RunEvolution {
 //            	if(i == 0 && generationCount%50 == 0) {
 //            		 sim = new MAIGSimulator(true, 0, levelSeed); //TODO level seed is still static? do random later!
 //            	} else {
-            		sim = new MAIGSimulator(false, 0, levelSeed); //TODO level seed is still static? do random later!
+            		sim = new MAIGSimulator(false, 0, levelSeed); //random.nextInt());//TODO level seed is still static? do random later!
 //            	}
             	
             	population.get(i).setPhenotype(new PhenotypeMario(sim));
@@ -92,6 +92,10 @@ public class RunEvolution {
                 
             	writeFitness.println(generationCount + " " + population.get(0).getPhenotype().getFitness() + " " + avgPopulationFitness);
             	System.out.println("generation: " + generationCount + " best: " + population.get(0).getPhenotype().getFitness() + " avg: " + avgPopulationFitness);
+            }
+            
+            if (generationCount % 10 == 0){
+            	System.out.println(population.get(0));
             }
             
             if(saveBestControllerToFile && generationCount%10 == 0) {

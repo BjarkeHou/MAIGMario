@@ -60,14 +60,15 @@ public class MAIGSimulator
 	        environment.performAction(agent.getAction());
 	    }
 	
-
 //		System.out.println("Evaluation Info:");
 //	    int[] ev = environment.getEvaluationInfoAsInts();
 //	    for (int anEv : ev)
 //	    {
 //	        System.out.print(anEv + ", ");
 //	    }
+	    
+	    
 		float[] marioPos = environment.getMarioFloatPos(); 
-	    return marioPos[0]/keyPressCounter; // X value.
+	    return marioPos[0];///keyPressCounter; // X value.
 	}
 }

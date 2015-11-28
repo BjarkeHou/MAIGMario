@@ -9,6 +9,7 @@ public class NN {
 	ArrayList<ArrayList<Node>> hiddenNodes = new ArrayList<ArrayList<Node>>();
 	ArrayList<Node> outputNodes = new ArrayList<Node>();
 	ArrayList<Connection> connections = new ArrayList<Connection>();
+	double treshold = 0.0;
 	
 	
 	// Creates a NN with random weights
@@ -30,21 +31,46 @@ public class NN {
 			throw new Exception("Number of inputs (" + inputs.length + ") are not equal to number of input nodes ("+inputNodes.size()+").");
 		
 		double[] outputs = new double[outputNodes.size()];
-		
+
+//		System.out.println("Input Layer:");		
 		for (int i = 0; i < inputs.length; i++) {
 			inputNodes.get(i).setInput(inputs[i]);
 			inputNodes.get(i).activate();
+			//inputNodes.get(i).input = 0.0;
+			//inputNodes.get(i).output = 0.0;
+//			System.out.print(inputNodes.get(i).input);
+//			System.out.print(":");
+//			System.out.print(inputNodes.get(i).output);
+//			System.out.print("; ");
 		}
+//		System.out.println();
+//		System.out.println("Hidden Layer(s):");
 		
 		for (ArrayList<Node> hiddenNodeLayer : hiddenNodes) {
 			for (Node hiddenNode : hiddenNodeLayer) {
 				hiddenNode.activate();
+				//hiddenNode.input = 0.0;
+				//hiddenNode.output = 0.0;
+//				System.out.print(hiddenNode.input);
+//				System.out.print(":");
+//				System.out.print(hiddenNode.output);
+//				System.out.print("; ");
 			}
+//			System.out.println();
 		}
-		
+//		System.out.println();
+//		System.out.println("Output Layer:");
+
 		for (int i = 0; i < outputs.length; i++) {
 			outputNodes.get(i).activate();
 			outputs[i] = outputNodes.get(i).getOutput();
+			//outputNodes.get(i).input = 0.0;
+			//outputNodes.get(i).output = 0.0;
+//			System.out.print(outputNodes.get(i).input);
+//			System.out.print(":");
+//			System.out.print(outputNodes.get(i).output);
+//			System.out.print("; ");
+
 		}
 		
 		return outputs;
@@ -88,6 +114,9 @@ public class NN {
 	// Creates connections between every input to every hidden
 	// and every hidden to every output.
 	private void InitializeNetwork() {
+		
+		this.treshold = outputNodes.get(0).getThreshold();
+		
 		for (Node inputNode : inputNodes) {
 			for (Node hiddenNode : hiddenNodes.get(0)) {
 				Connection newConn = new Connection(inputNode, hiddenNode);
@@ -125,6 +154,10 @@ public class NN {
 
 	public int getNumberOfConnections() {
 		return connections.size();
+	}
+
+	public double getTreshold() {
+		return treshold;
 	}
 	
 }

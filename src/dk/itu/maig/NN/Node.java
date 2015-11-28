@@ -41,24 +41,28 @@ public class Node {
 		if (outs != null){
 			for (Connection c : outs) {
 				double i = c.to.input;
-				i = i + res*c.weight;
+				i = i + output*c.weight;
 				c.to.setInput(i);
 			}
-		}		
+		}
+		
+		//input = 0.0;
 	}
 
 	/**
 	 * @param res
 	 * 
 	 * This is the actual activation function,
-	 * in our case it's a ramp
+	 * in our case it's a sigmoid //ramp
 	 */
 	private void activationFunction(double res) {
+		res =  (1.0 / (1 + Math.exp(-res)));
 		if (res > threshold){
 			output = res;
 		} else {
 			output = 0;
 		}
+
 	}
 
 	public double getInput() {

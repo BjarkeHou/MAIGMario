@@ -2,6 +2,8 @@ package dk.itu.maig.evloution;
 
 import java.util.Random;
 
+import dk.itu.maig.NN.NN;
+
 /**
  * @author Aaron Gornott <agor@itu.dk>
  */
@@ -16,7 +18,7 @@ public class Genotype {
 	public Genotype(int numberOfNewtworkWeights, Random r){
 		this.newtworkWeights = new double[numberOfNewtworkWeights];
 		for(int i=0; i < numberOfNewtworkWeights; i++){
-			this.newtworkWeights[i] = r.nextDouble(); 
+			this.newtworkWeights[i] = r.nextDouble();//0.3+r.nextDouble()*0.6; 
 		}
     }
     
@@ -37,8 +39,8 @@ public class Genotype {
     }
     
     private double mutate(double gene, Random r){
-        if(r.nextDouble() < 0.025){ // 2,5%
-            double newGene = gene + ((r.nextDouble() - 0.5) * 0.3 );
+        if(r.nextDouble() < 0.15){ // 15%
+            double newGene = gene + ((r.nextDouble() - 0.5) * 0.4 );
             if(newGene >= 1) newGene = 1 - Double.MIN_VALUE ; // <-- almost 1
             if(newGene < 0) newGene = 0;
             return newGene;
