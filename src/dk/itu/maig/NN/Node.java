@@ -8,7 +8,7 @@ public class Node {
 	protected ArrayList<Connection> outs;
 	protected double input; //already summed and multiplied by the weights of the connections
 	protected double output = 0;
-	protected double threshold = 0.5;
+	protected double threshold = 0.1;
 
 	public Node() {
 	}
@@ -46,7 +46,7 @@ public class Node {
 			}
 		}
 		
-		//input = 0.0;
+		input = 0.0;
 	}
 
 	/**
@@ -57,11 +57,12 @@ public class Node {
 	 */
 	private void activationFunction(double res) {
 		res =  (1.0 / (1 + Math.exp(-res)));
-		if (res > threshold){
+//		res = (res/(1+Math.abs(res)));
+//		if (res > threshold){
 			output = res;
-		} else {
-			output = 0;
-		}
+//		} else {
+//			output = 0;
+//		}
 
 	}
 

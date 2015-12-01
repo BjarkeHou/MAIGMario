@@ -23,11 +23,11 @@ public class RunEvolution {
 	static final int REPRODUCTION_TOP = POPULATION_SIZE / 11; // reproduction count for best individual (next best x--; until x==1)
 	static final int NUM_EVAL_TRIALS=1; // TODO:  = 10; // run count for avg evaluation
 	
-	static final int levelSeed = 2;
+	static final int levelSeed = 3;
 	static final boolean visual = false;
 	
 	static final int inNodes = 10;
-	static final int[] hiddenNodes = {7,5};
+	static final int[] hiddenNodes = {6};
 	static final int outNodes = 3; // NN def
 	
 	static final boolean saveFitnessDataToFile = true;

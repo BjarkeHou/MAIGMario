@@ -65,7 +65,7 @@ public class TestNNAgent extends BasicMarioAIAgent implements Agent {
 //		}
 		
 		double trs = nn.getTreshold();
-		trs+=0.499023;
+		//trs+=0.499023;
 		
 		
 		if (nnResult[0] > trs){

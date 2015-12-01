@@ -39,7 +39,7 @@ public class Genotype {
     }
     
     private double mutate(double gene, Random r){
-        if(r.nextDouble() < 0.15){ // 15%
+        if(r.nextDouble() < 0.025){ // 15%
             double newGene = gene + ((r.nextDouble() - 0.5) * 0.4 );
             if(newGene >= 1) newGene = 1 - Double.MIN_VALUE ; // <-- almost 1
             if(newGene < 0) newGene = 0;
