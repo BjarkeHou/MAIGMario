@@ -16,17 +16,17 @@ public class Genotype {
 	public Genotype(int numberOfNewtworkWeights, Random r){
 		this.newtworkWeights = new double[numberOfNewtworkWeights];
 		for(int i=0; i < numberOfNewtworkWeights; i++){
-			this.newtworkWeights[i] = r.nextDouble(); 
+			this.newtworkWeights[i] = (r.nextDouble()*4)-2; 
 		}
     }
 	
-	public Genotype(int numberOfNewtworkWeights, Random r, double wMax){
+	public Genotype(int numberOfNewtworkWeights, Random r, double wMin){
 		this.newtworkWeights = new double[numberOfNewtworkWeights];
 		for(int i=0; i < numberOfNewtworkWeights; i++){
 			double weight;
 			do {
 				weight = r.nextDouble();
-			} while(weight > wMax);
+			} while(weight < wMin);
 			this.newtworkWeights[i] = weight; 
 		}
     }
@@ -49,9 +49,9 @@ public class Genotype {
     
     private double mutate(double gene, double chance, Random r){
         if(r.nextDouble() < chance){ 
-            double newGene = gene + ((r.nextDouble() - 0.5) * 0.5);
-            if(newGene >= 1) newGene = 1 - Double.MIN_VALUE ; // <-- almost 1
-            if(newGene < 0) newGene = 0;
+            double newGene = gene + ((r.nextDouble() - 0.5));
+            if(newGene >= 2) newGene = 2 - Double.MIN_VALUE; // <-- almost 2
+            if(newGene < -2) newGene = -2;
             return newGene;
         }else
             return gene;

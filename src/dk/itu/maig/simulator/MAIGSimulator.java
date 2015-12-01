@@ -42,21 +42,21 @@ public class MAIGSimulator
 	    environment.reset(opt);
 	    agent.setObservationDetails(environment.getReceptiveFieldWidth(), environment.getReceptiveFieldHeight(), environment.getMarioEgoPos()[0], environment.getMarioEgoPos()[1]);
 		
-	    int keyPressCounter = 0;
+//	    int keyPressCounter = 0;
 	    
 		// Game loop
 		while (!environment.isLevelFinished())
 	    { 
 	        environment.tick();
 	        agent.integrateObservation(environment);
-	        boolean[] actions = agent.getAction();
-	        int actionCounter = 0;
-	        for (boolean action : actions) {
-				if (action) actionCounter++;
-			}
-	        if(actionCounter > 0)
-	        	keyPressCounter += actionCounter;
-	        
+//	        boolean[] actions = agent.getAction();
+//	        int actionCounter = 0;
+//	        for (boolean action : actions) {
+//				if (action) actionCounter++;
+//			}
+//	        if(actionCounter > 0)
+//	        	keyPressCounter += actionCounter;
+//	        
 	        environment.performAction(agent.getAction());
 	    }
 	
@@ -69,6 +69,7 @@ public class MAIGSimulator
 //	    }
 		float[] marioPos = environment.getMarioFloatPos(); 
 		
-	    return keyPressCounter == 0 ? marioPos[0] : marioPos[0]/keyPressCounter; // X value.
+		return marioPos[0];
+//	    return keyPressCounter == 0 ? marioPos[0] : marioPos[0]/keyPressCounter; // X value.
 	}
 }

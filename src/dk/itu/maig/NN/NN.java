@@ -26,7 +26,7 @@ public class NN {
 	}
 	
 	public double[] run(double[] inputs) throws Exception {
-		if(inputs.length != inputNodes.size())
+		if(inputs.length != inputNodes.size()-1) // minus 1 for bias
 			throw new Exception("Number of inputs (" + inputs.length + ") are not equal to number of input nodes ("+inputNodes.size()+").");
 		
 		double[] outputs = new double[outputNodes.size()];
@@ -54,9 +54,12 @@ public class NN {
 	}
 
 	private void createNodes(int in, int[] hidden, int out) {
-		for(int i = 0; i < in; i++) {
+		for(int i = 0; i < in+1; i++) { // +1 for bias
 			inputNodes.add(new Node());
 		}
+		
+		inputNodes.get(in).input = 1;
+		
 		for(int i = 0; i < hidden.length; i++) {
 			// For each layer, add an array list
 			hiddenNodes.add(i, new ArrayList<Node>());
@@ -91,39 +94,52 @@ public class NN {
 	// Creates connections between every input to every hidden
 	// and every hidden to every output.
 	private void InitializeNetwork() {
-		for (Node inputNode : inputNodes) {
-			for (Node hiddenNode : hiddenNodes.get(0)) {
-				Connection newConn = new Connection(inputNode, hiddenNode);
-				connections.add(newConn);
-				inputNode.addOut(newConn);
-				hiddenNode.addIn(newConn);
-			}
-		}
-		
-		for (ArrayList<Node> hiddenNodeLayer : hiddenNodes) {
-			if(hiddenNodes.indexOf(hiddenNodeLayer) == hiddenNodes.size() - 1)
-				break;
-			
-			for (Node hiddenNodeLowerLayer : hiddenNodeLayer) {
-				for (Node hiddenNodeUpperLayer : hiddenNodes.get(hiddenNodes.indexOf(hiddenNodeLayer) + 1)) {
-					Connection newConn = new Connection(hiddenNodeLowerLayer, hiddenNodeUpperLayer);
+		if(hiddenNodes.size() > 0) {
+			for (Node inputNode : inputNodes) {
+				for (Node hiddenNode : hiddenNodes.get(0)) {
+					Connection newConn = new Connection(inputNode, hiddenNode);
 					connections.add(newConn);
-					hiddenNodeLowerLayer.addOut(newConn);
-					hiddenNodeUpperLayer.addIn(newConn);
+					inputNode.addOut(newConn);
+					hiddenNode.addIn(newConn);
 				}
-//				if(hiddenNodes.indexOf(hiddenNodeLayer) == hiddenNodes.size()-1)
-//					break;
+			}
+			
+			for (ArrayList<Node> hiddenNodeLayer : hiddenNodes) {
+				if(hiddenNodes.indexOf(hiddenNodeLayer) == hiddenNodes.size() - 1)
+					break;
+				
+				for (Node hiddenNodeLowerLayer : hiddenNodeLayer) {
+					for (Node hiddenNodeUpperLayer : hiddenNodes.get(hiddenNodes.indexOf(hiddenNodeLayer) + 1)) {
+						Connection newConn = new Connection(hiddenNodeLowerLayer, hiddenNodeUpperLayer);
+						connections.add(newConn);
+						hiddenNodeLowerLayer.addOut(newConn);
+						hiddenNodeUpperLayer.addIn(newConn);
+					}
+//					if(hiddenNodes.indexOf(hiddenNodeLayer) == hiddenNodes.size()-1)
+//						break;
+				}
+			}
+			
+			for (Node hiddenNode : hiddenNodes.get(hiddenNodes.size()-1)) {
+				for (Node outputNode : outputNodes) {
+					Connection newConn = new Connection(hiddenNode, outputNode); 
+					connections.add(newConn);
+					hiddenNode.addOut(newConn);
+					outputNode.addIn(newConn);
+				}
+			}
+		} else {
+			for (Node inputNode : inputNodes) {
+				for (Node outNode : outputNodes) {
+					Connection newConn = new Connection(inputNode, outNode);
+					connections.add(newConn);
+					inputNode.addOut(newConn);
+					outNode.addIn(newConn);
+				}
 			}
 		}
 		
-		for (Node hiddenNode : hiddenNodes.get(hiddenNodes.size()-1)) {
-			for (Node outputNode : outputNodes) {
-				Connection newConn = new Connection(hiddenNode, outputNode); 
-				connections.add(newConn);
-				hiddenNode.addOut(newConn);
-				outputNode.addIn(newConn);
-			}
-		}
+		
 	}
 
 	public int getNumberOfConnections() {

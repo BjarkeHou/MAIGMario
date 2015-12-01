@@ -8,7 +8,7 @@ public class Node {
 	protected ArrayList<Connection> outs;
 	protected double input; //already summed and multiplied by the weights of the connections
 	protected double output = 0;
-	protected double threshold = 0.2;
+	protected double threshold = 0.15;
 
 	public Node() {
 	}
@@ -59,11 +59,17 @@ public class Node {
 	 * in our case it's a ramp
 	 */
 	private void activationFunction(double res) {
-		if (res > threshold){
-			output = res;
-		} else {
-			output = 0;
-		}
+//		if (res > threshold){
+//			output = res;
+//		} else {
+//			output = 0;
+//		}
+		res = (1.0 / (1 + Math.exp(-res)));
+		// if (res > threshold){
+		output = res;
+		// } else {
+		// output = 0;
+		// }
 	}
 
 	public double getInput() {
